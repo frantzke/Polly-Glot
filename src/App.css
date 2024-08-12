@@ -68,6 +68,13 @@ textarea {
   border: none;
   border-radius: 8px;
   width: 100%;
+  transform: translateX(-10px);
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 30px;
+  padding: 10px;
+  resize: none;
 }
 
 .language-box {
@@ -116,5 +123,3 @@ button {
   color: white;
   margin: 20px 0px;
 }
-
-
