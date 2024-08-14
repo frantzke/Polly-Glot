@@ -1,7 +1,5 @@
 import { useState, ChangeEvent } from 'react';
-import OpenAI from 'openai';
 import './App.css';
-const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
 import LanguageSelect from './components/LanguageSelect';
 
@@ -24,27 +22,25 @@ function App() {
       return;
     }
     try {
-      if (!OPENAI_API_KEY) {
-        throw new Error('OpenAI API key is missing.');
-      }
-      const openai = new OpenAI({
-        apiKey: OPENAI_API_KEY || '',
-        dangerouslyAllowBrowser: true,
-      });
-      const completion = await openai.chat.completions.create({
-        messages: [
-          {
-            role: 'system',
-            content: `You are a helpful assistant that translates text into French, Spanish, or Japanese`,
-          },
-          { role: 'user', content: `Translate the following text into ${language}:\n${text}` },
-        ],
-        model: 'gpt-3.5-turbo',
-      });
+      const messages = [
+        {
+          role: 'system',
+          content: `You are a helpful assistant that translates text into French, Spanish, or Japanese`,
+        },
+        { role: 'user', content: `Translate the following text into ${language}:\n${text}` },
+      ];
 
-      setTranslatedText(
-        completion.choices[0].message.content || "Sorry, I couldn't translate that."
-      );
+      const url = 'https://openai-api-worker.lukasfrantzke.workers.dev';
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(messages),
+      });
+      const data = await response.json();
+      const message = data.content;
+      setTranslatedText(message || "Sorry, I couldn't translate that.");
     } catch (error: any) {
       console.error(error);
       setTranslatedText('Sorry, something went wrong.');
