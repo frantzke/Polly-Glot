@@ -1,5 +1,5 @@
 .hero-image {
-  background-image: url('/src/assets/worldmap.png');
+  background-image: url('/assets/worldmap.png');
   height: 50%;
   max-height: 200px;
   background-position: center;
@@ -122,4 +122,9 @@ button {
   text-align: center;
   color: white;
   margin: 20px 0px;
+}
+
+.fa {
+  margin-left: -12px;
+  margin-right: 8px;
 }

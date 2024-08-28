@@ -7,6 +7,7 @@ function App() {
   const [text, setText] = useState('');
   const [language, setLanguage] = useState('French');
   const [translatedText, setTranslatedText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value);
@@ -30,7 +31,8 @@ function App() {
         { role: 'user', content: `Translate the following text into ${language}:\n${text}` },
       ];
 
-      const url = 'https://openai-api-worker.lukasfrantzke.workers.dev';
+      const url = 'https://openai-api-worker.lukasfrantzke.workers.dev/v1/completions';
+      setIsLoading(true);
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -39,6 +41,7 @@ function App() {
         body: JSON.stringify(messages),
       });
       const data = await response.json();
+      setIsLoading(false);
       const message = data.content;
       setTranslatedText(message || "Sorry, I couldn't translate that.");
     } catch (error: any) {
@@ -57,7 +60,7 @@ function App() {
     <>
       <header className='hero-image'>
         <div className='hero-box'>
-          <img className='parrot-img' src='/src/assets/parrot.png' alt='parrot' />
+          <img className='parrot-img' src='/assets/parrot.png' alt='parrot' />
           <div>
             <h1 className='hero-text'>PollyGlot</h1>
             <h6 className='hero-subtitle'>Perfect Translation Every Time</h6>
@@ -89,7 +92,7 @@ function App() {
             </div>
           )}
 
-          {translatedText === '' && <button onClick={onTranslate}>Translate</button>}
+          {translatedText === '' && <button onClick={onTranslate}> {isLoading && <i className="fa fa-spinner fa-spin"></i>}Translate</button>}
           {translatedText && <button onClick={onReset}>Start Over</button>}
         </div>
       </main>
