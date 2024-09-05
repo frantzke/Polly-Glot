@@ -1,6 +1,7 @@
 import { useState, ChangeEvent } from 'react';
 import './App.css';
 
+import Header from './components/Header';
 import LanguageSelect from './components/LanguageSelect';
 
 function App() {
@@ -8,13 +9,20 @@ function App() {
   const [language, setLanguage] = useState('French');
   const [translatedText, setTranslatedText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [messages, setMessages] = useState([
+    {
+      role: 'system',
+      content: `Hi! I'm PollyGlot, a helpful assistant that translates text into French, Spanish, or Japanese. Send me a message and I'll translate it for you!`,
+      language: 'en',
+    },
+    {
+      role: 'user',
+      content: `Test`,
+    },
+  ]);
 
   const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value);
-  };
-
-  const handleLanguageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setLanguage(event.target.value);
   };
 
   const onTranslate = async () => {
@@ -58,42 +66,35 @@ function App() {
 
   return (
     <>
-      <header className='hero-image'>
-        <div className='hero-box'>
-          <img className='parrot-img' src='/assets/parrot.png' alt='parrot' />
-          <div>
-            <h1 className='hero-text'>PollyGlot</h1>
-            <h6 className='hero-subtitle'>Perfect Translation Every Time</h6>
-          </div>
-        </div>
-      </header>
+      <Header />
       <main className='main'>
         <div className='content'>
-          <p>Text to translate 👇</p>
-          <textarea
-            rows={5}
-            onChange={handleTextChange}
-            maxLength={200}
-            value={text}
-            readOnly={translatedText !== ''}
-          />
+          <div className='messages-box'>
+            {messages.map((message, index) => (
+              <div key={index} className={`message ${message.role}`}>
+                <p>{message.content}</p>
+              </div>
+            ))}
+          </div>
 
-          {translatedText === '' && (
-            <>
-              <p>Select language 👇</p>
-              <LanguageSelect language={language} handleLanguageChange={handleLanguageChange} />
-            </>
-          )}
-
-          {translatedText && (
-            <div>
-              <p>Your translation 👇</p>
-              <textarea rows={5} maxLength={200} readOnly={true} value={translatedText} />
+          <div>
+            <div className='input-box'>
+              <textarea
+                className='text-input'
+                rows={2}
+                onChange={handleTextChange}
+                maxLength={200}
+                value={text}
+              />
             </div>
-          )}
-
-          {translatedText === '' && <button onClick={onTranslate}> {isLoading && <i className="fa fa-spinner fa-spin"></i>}Translate</button>}
-          {translatedText && <button onClick={onReset}>Start Over</button>}
+            <div className='actions-box'>
+              <LanguageSelect language={language} setLanguage={setLanguage} />
+              <button onClick={onTranslate}>
+                <img className='floating-send-btn' src='/assets/send-btn.png' alt='send button' />
+                {isLoading && <i className='fa fa-spinner fa-spin'></i>}
+              </button>
+            </div>
+          </div>
         </div>
       </main>
     </>

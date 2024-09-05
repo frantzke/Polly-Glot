@@ -1,52 +1,34 @@
-import { ChangeEventHandler } from "react";
+import { Dispatch, SetStateAction } from 'react';
+import './LanguageSelect.css';
 
-function LanguageSelect(props: { language: string; handleLanguageChange: ChangeEventHandler<HTMLInputElement>; }) {
+function LanguageSelect(props: {
+  language: string;
+  setLanguage: Dispatch<SetStateAction<string>>;
+}) {
+  const { language, setLanguage } = props;
 
-    const { language, handleLanguageChange } = props;
-    
-    return (
-        <div className='language-box'>
-            <div className='language-option'>
-              <input
-                className='radio-btn'
-                type='radio'
-                id='French'
-                name='French'
-                value='French'
-                checked={language === 'French'}
-                onChange={handleLanguageChange}
-              />
-              <label htmlFor='French'>French</label>
-              <img className='flag-img' src='/assets/fr-flag.png' alt='france' />
-            </div>
-            <div className='language-option'>
-              <input
-                className='radio-btn'
-                type='radio'
-                id='Spanish'
-                name='Spanish'
-                value='Spanish'
-                checked={language === 'Spanish'}
-                onChange={handleLanguageChange}
-              />
-              <label htmlFor='Spanish'>Spanish</label>
-              <img className='flag-img' src='/assets/sp-flag.png' alt='france' />
-            </div>
-            <div className='language-option'>
-              <input
-                className='radio-btn'
-                type='radio'
-                id='Japanese'
-                name='Japanese'
-                value='Japanese'
-                checked={language === 'Japanese'}
-                onChange={handleLanguageChange}
-              />
-              <label htmlFor='Japanese'>Japanese</label>
-              <img className='flag-img' src='/assets/jpn-flag.png' alt='france' />
-            </div>
-          </div>
-    )
+  return (
+    <div className='language-box'>
+      <button
+        className={`language-option ${language === 'French' ? 'selected' : ''}`}
+        onClick={() => setLanguage('French')}
+      >
+        <img className='flag-img' src='/assets/fr-flag.png' alt='french flag' />
+      </button>
+      <button
+        className={`language-option ${language === 'Spanish' ? 'selected' : ''}`}
+        onClick={() => setLanguage('Spanish')}
+      >
+        <img className='flag-img' src='/assets/sp-flag.png' alt='spanish flag' />
+      </button>
+      <button
+        className={`language-option ${language === 'Japanese' ? 'selected' : ''}`}
+        onClick={() => setLanguage('Japanese')}
+      >
+        <img className='flag-img' src='/assets/jpn-flag.png' alt='japan flag' />
+      </button>
+    </div>
+  );
 }
 
 export default LanguageSelect;
