@@ -47,9 +47,12 @@ button {
 
 .messages-box {
   flex-grow: 2;
-  max-height: 55vh;
+  max-height: 50vh;
   overflow: auto;
-  border-radius: 8px;
+  /* border-radius: 8px; */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
 }
 
 .fa {
@@ -57,14 +60,20 @@ button {
   margin-right: 8px;
 }
 
+.message {
+  width: fit-content;
+}
+
 .message.system {
-  border-radius: 2px 20px 20px 20px;
+  border-radius: 0px 25px 25px 25px;
   background: #035a9d;
+  align-self: flex-start;
 }
 
 .message.user {
-  border-radius: 20px 2px 20px 20px;
+  border-radius: 20px 0px 20px 20px;
   background: #65da65;
+  align-self: flex-end;
 }
 
 .message p {
@@ -75,6 +84,11 @@ button {
   text-align: left;
   color: white;
   padding: 16px;
+  margin: 0;
+}
+
+.bottom-box {
+  margin-top: 8px;
 }
 
 .actions-box {
@@ -83,21 +97,30 @@ button {
   align-items: center;
 }
 
+.error {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.error p {
+  color: red;
+  text-align: left;
+  margin: 0;
+}
+
 /** Scrollbar Styling **/
 
-.messages-box::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	background-color: #F5F5F5;
+.messages-box::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
 }
 
-.messages-box::-webkit-scrollbar
-{
-	width: 6px;
-	background-color: #F5F5F5;
+.messages-box::-webkit-scrollbar {
+  width: 6px;
+  background-color: #f5f5f5;
 }
 
-.messages-box::-webkit-scrollbar-thumb
-{
-	background-color: #000000;
+.messages-box::-webkit-scrollbar-thumb {
+  background-color: #000000;
 }
